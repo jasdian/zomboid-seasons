@@ -1,0 +1,9 @@
+/target
+*.db
+*.db-shm
+*.db-wal
+.env
+*.pw
+config.prod.toml
+backup-users.txt
+status-config.prod.toml

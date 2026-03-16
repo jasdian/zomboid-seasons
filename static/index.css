@@ -1,0 +1,118 @@
+/* ── Index Page — Specific Styles ── */
+
+.panel:nth-child(4) { animation-delay: .21s }
+
+small {
+  display: block;
+  font-size: .7rem;
+  color: var(--dim);
+  margin-top: -.6rem;
+  margin-bottom: .7rem;
+}
+
+/* ── Season Stats ── */
+
+.stats {
+  display: flex;
+  gap: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.stat {
+  text-align: center;
+  flex: 1;
+  padding: .7rem;
+  background: var(--bg);
+  border: 1px solid var(--brd);
+}
+
+.stat .v {
+  display: block;
+  font-size: 1.8rem;
+  color: var(--cu);
+  text-shadow: 0 0 15px var(--cug);
+  line-height: 1.2;
+}
+
+.stat .l {
+  font-size: .65rem;
+  color: var(--dim);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+/* ── Countdown ── */
+
+.cb {
+  text-align: center;
+  padding: .7rem;
+  background: var(--bg);
+  border: 1px solid var(--brd);
+}
+
+.cb .l {
+  font-size: .65rem;
+  color: var(--dim);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  margin-bottom: .2rem;
+}
+
+.cd {
+  font-size: clamp(1.3rem, 4vw, 1.9rem);
+  color: var(--red);
+  text-shadow: 0 0 20px var(--redg);
+  letter-spacing: .08em;
+}
+
+/* ── Time Info ── */
+
+.time-info {
+  text-align: center;
+  font-size: .7rem;
+  color: var(--dim);
+  letter-spacing: .1em;
+  margin-top: .5rem;
+}
+
+/* ── Messages ── */
+
+.msg {
+  padding: .8rem;
+  border: 1px solid var(--brd);
+  background: var(--bg);
+  margin-top: 1rem;
+}
+
+.msg.err { border-color: var(--ered) }
+.msg.ok  { border-color: var(--grn) }
+.msg p   { margin-bottom: .3rem }
+
+.pw-warn {
+  padding: .6rem;
+  border: 1px solid var(--red);
+  background: rgba(139, 0, 0, .1);
+  color: var(--red);
+  font-size: .85rem;
+  margin-top: .5rem;
+}
+
+/* ── Empty State ── */
+
+.drops-empty {
+  text-align: center;
+  padding: 1rem;
+  color: var(--dim);
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 500px) {
+  .stats { flex-direction: column; gap: .7rem }
+}
+
+@media (max-width: 480px) {
+  .stat .v { font-size: 1.3rem }
+  .stat .l { font-size: .58rem }
+  small { font-size: .63rem }
+}

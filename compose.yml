@@ -1,0 +1,78 @@
+services:
+  backend:
+    build: .
+    container_name: zomboid-seasons
+    restart: unless-stopped
+    environment:
+      VIRTUAL_HOST: zomboid.example.com
+      LETSENCRYPT_HOST: zomboid.example.com
+      LETSENCRYPT_EMAIL: example.username@example.com
+      VIRTUAL_PORT: "3000"
+    pid: host
+    expose:
+      - "3000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - db-data:/data/db
+      - archive-data:/data/archives
+      - /home/pzuser/Zomboid:/home/pzuser/Zomboid
+      - /home/pzuser/pzserver/media/lua/shared/Sandbox:/home/pzuser/pzserver/media/lua/shared/Sandbox:ro
+      - /run/systemd:/run/systemd
+      - /run/dbus/system_bus_socket:/run/dbus/system_bus_socket
+      - ./config.prod.toml:/app/config.toml:ro
+      - ./rcon.pw:/run/secrets/rcon.pw:ro
+      - /home/pzuser/Zomboid/ZomboidSeasons/kills.json:/data/kills.json:ro
+      - /home/pzuser/Zomboid/ZomboidSeasons/drops_claimed.json:/data/drops_claimed.json:ro
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:3000/health"]
+      interval: 3s
+      timeout: 2s
+      retries: 10
+      start_period: 5s
+    logging:
+      driver: json-file
+      options:
+        max-size: "4m"
+        max-file: "10"
+
+  status:
+    build:
+      context: .
+      dockerfile: status-service/Dockerfile
+    container_name: zomboid-status
+    environment:
+      VIRTUAL_HOST: status.example.com
+      LETSENCRYPT_HOST: status.example.com
+      LETSENCRYPT_EMAIL: example.username@example.com
+      VIRTUAL_PORT: "3001"    
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    expose:
+      - "3001"
+    volumes:
+      - status-db:/data/status-db
+      - ./status-config.prod.toml:/app/config.toml:ro
+      - ./rcon.pw:/run/secrets/rcon.pw:ro
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:3001/health"]
+      interval: 3s
+      timeout: 2s
+      retries: 10
+      start_period: 5s
+    logging:
+      driver: json-file
+      options:
+        max-size: "4m"
+        max-file: "10"
+
+volumes:
+  db-data:
+  archive-data:
+  status-db:
+
+networks:
+  default:
+    name: nginx-external-network
+    external: true

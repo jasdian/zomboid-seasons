@@ -1,0 +1,7 @@
+target/
+.git/
+.claude/
+tests/
+test-config.toml
+shell.nix
+*.md

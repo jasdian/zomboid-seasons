@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Account — Zomboid Seasons</title>
+<meta name="description" content="Look up your Zomboid Seasons account balance and season history.">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="account.css">
+<script src="nav.js" defer></script>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Zomboid Seasons</h1>
+    <div class="sub">Seasonal Survival Server</div>
+    <nav></nav>
+  </header>
+
+  <section class="panel">
+    <div class="ph"><h2>Account Lookup</h2></div>
+    <div class="pb">
+      <label for="steam-input">Steam ID</label>
+      <div class="search-row">
+        <input type="text" id="steam-input" placeholder="Enter your 17-digit Steam ID" maxlength="20">
+        <button id="lookup-btn">Lookup</button>
+      </div>
+      <div id="error" class="hidden acct-error"></div>
+    </div>
+  </section>
+
+  <section class="panel hidden" id="acct-panel">
+    <div class="ph"><span class="dot"></span><h2 id="acct-title">Account</h2></div>
+    <div class="pb">
+      <div class="balance-row">
+        <span class="balance-label">Balance</span>
+        <span class="balance-val" id="balance">0</span>
+        <span class="balance-unit">pts</span>
+        <span id="daily-bonus" class="hidden"></span>
+      </div>
+
+      <h3 class="section-h">Season History</h3>
+      <table>
+        <thead><tr>
+          <th>Season</th>
+          <th class="num-col">Score</th>
+          <th class="num-col">Characters</th>
+        </tr></thead>
+        <tbody id="history-tbody"></tbody>
+      </table>
+      <div id="no-history" class="hidden acct-empty">No season history yet.</div>
+    </div>
+  </section>
+</main>
+<script src="account.js"></script>
+</body>
+</html>

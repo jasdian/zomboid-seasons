@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Leaderboard — Zomboid Seasons</title>
+<meta name="description" content="Season leaderboard for the Zomboid Seasons server. Scored by kills, survival, and online consistency.">
+<meta property="og:title" content="Leaderboard — Zomboid Seasons">
+<meta property="og:description" content="Season leaderboard for the Zomboid Seasons server.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zomboid.example.com/leaderboard.html">
+<link rel="canonical" href="https://zomboid.example.com/leaderboard.html">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="leaderboard.css">
+<script src="nav.js" defer></script>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Zomboid Seasons</h1>
+    <div class="sub">Seasonal Survival Server</div>
+    <nav></nav>
+  </header>
+
+  <section class="panel">
+    <div class="ph"><span class="dot"></span><h2 id="lb-title">Loading...</h2></div>
+    <div class="pb">
+      <label for="season-sel">Season</label>
+      <select id="season-sel"><option value="">Current Season</option></select>
+
+      <table>
+        <thead><tr>
+          <th class="rank-col">#</th>
+          <th>Player</th>
+          <th class="num-col">Score</th>
+          <th class="num-col">Kills</th>
+          <th class="num-col">Survival</th>
+          <th class="num-col">Online</th>
+        </tr></thead>
+        <tbody id="lb-tbody"><tr><td colspan="6">Loading...</td></tr></tbody>
+      </table>
+      <div id="lb-empty" class="hidden lb-empty">
+        No data recorded yet.
+      </div>
+      <div class="lb-meta" id="lb-meta"></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="ph"><h2>Scoring System</h2></div>
+    <div class="pb">
+      <p class="reward-info">
+        Your season score is the sum of three components from your <strong>best character</strong>
+        plus your online consistency:
+      </p>
+      <table class="scoring-table">
+        <thead><tr><th>Component</th><th>Formula</th><th>Max</th></tr></thead>
+        <tbody>
+          <tr><td>Online</td><td>10 pts per day online (30min+)</td><td>~900</td></tr>
+          <tr><td>Kills</td><td>Diminishing returns (cap: 1000 kills)</td><td>~497</td></tr>
+          <tr><td>Survival</td><td>Exponential (cap: 30 game-days)</td><td>700</td></tr>
+        </tbody>
+      </table>
+      <p class="reward-info">
+        At season end, your score is credited to your <strong>permanent account balance</strong>.
+        Top <strong>3</strong> scorers get <strong>free registration</strong> for the next season.
+      </p>
+    </div>
+  </section>
+</main>
+<script src="leaderboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zomboid Seasons // Admin</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="admin.css">
+<script src="nav.js" defer></script>
+</head>
+<body>
+<main>
+  <header>
+    <h1>ZOMBOID // <span id="hdr-sn">S??</span></h1>
+    <div class="sub">Survivor Control Terminal</div>
+    <nav></nav>
+  </header>
+
+  <section class="panel" id="auth-panel">
+    <div class="ph"><span class="dot dot-r"></span><h2>Access Terminal</h2></div>
+    <div class="pb">
+      <label for="admin-token">Admin Token</label>
+      <div class="row">
+        <input type="password" id="admin-token" placeholder="Enter admin token">
+        <button id="auth-btn">Connect</button>
+      </div>
+      <small id="auth-fb"></small>
+    </div>
+  </section>
+
+  <div id="dash" class="hidden">
+
+    <section class="panel">
+      <div class="ph"><span class="dot dot-g"></span><h2>Promo Codes</h2></div>
+      <div class="pb">
+        <details>
+          <summary>Create New Promo</summary>
+          <form id="promo-form">
+            <div class="g2">
+              <div><label>Code<input type="text" id="p-code" required maxlength="32" placeholder="e.g. FREESEASON"></label></div>
+              <div><label>Discount %<input type="number" id="p-disc" required min="0" max="100" value="100"></label></div>
+            </div>
+            <div>
+              <label>Max Uses (blank = unlimited)<input type="number" id="p-max" min="1" placeholder="unlimited"></label>
+            </div>
+            <button type="submit">Create Promo</button>
+            <span id="promo-fb"></span>
+          </form>
+        </details>
+        <table><thead>
+          <tr><th>Code</th><th>Discount</th><th>Uses</th><th>Active</th><th></th></tr>
+        </thead><tbody id="promo-tbody"><tr><td colspan="5">Loading...</td></tr></tbody></table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="ph"><span class="dot dot-g"></span><h2>Registrations</h2></div>
+      <div class="pb">
+        <input type="text" id="f-search" placeholder="Search name, ID, promo..." class="search-input">
+        <div class="filters">
+          <label>Season<select id="f-season"><option value="">All</option></select></label>
+          <label>Status<select id="f-status">
+            <option value="">All</option>
+            <option value="awaiting_payment">Awaiting Payment</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="expired">Expired</option>
+          </select></label>
+        </div>
+        <table><thead>
+          <tr><th>ID</th><th>Player</th><th>Steam</th><th>Season</th><th>Status</th><th>Amount</th><th>Promo</th><th>Updated</th><th></th></tr>
+        </thead><tbody id="reg-tbody"><tr><td colspan="9">Loading...</td></tr></tbody></table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="ph"><span class="dot dot-g"></span><h2>Supply Drops</h2></div>
+      <div class="pb">
+        <details>
+          <summary>Trigger Drop</summary>
+          <form id="drop-form">
+            <label>POI Name<select id="d-poi"><option value="">Select POI...</option></select></label>
+            <label>Loot Tier (optional)<select id="d-tier">
+              <option value="">Default</option>
+              <option value="standard">Standard</option>
+              <option value="military">Military</option>
+              <option value="medical">Medical</option>
+              <option value="survival">Survival</option>
+              <option value="builder">Builder</option>
+              <option value="tactical">Tactical</option>
+              <option value="mixed">Mixed</option>
+            </select></label>
+            <button type="submit">Trigger Supply Drop</button>
+            <span id="drop-fb"></span>
+          </form>
+        </details>
+        <table><thead>
+          <tr><th>ID</th><th>Location</th><th>Status</th><th>Tier</th><th>Scheduled</th><th>Claimed By</th></tr>
+        </thead><tbody id="drop-tbody"><tr><td colspan="6">Loading...</td></tr></tbody></table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="ph"><span class="dot dot-g"></span><h2>Status / Incidents</h2></div>
+      <div class="pb">
+        <p class="section-desc">Status management has moved to the dedicated status service.</p>
+        <a href="https://status.example.com/admin.html" class="status-link">Open Status Admin &rarr;</a>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="ph"><span class="dot dot-g"></span><h2>Lua Hot-Reload</h2></div>
+      <div class="pb">
+        <p class="section-desc">
+          Reload the ZomboidSeasons Lua mod on the running PZ server without restarting. Use after deploying mod-only changes.</p>
+        <button id="reload-lua-btn">Reload Lua</button>
+        <span id="reload-lua-fb"></span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="ph"><span class="dot dot-r"></span><h2>Season Rotation</h2></div>
+      <div class="pb">
+        <p class="section-desc">
+          Force an immediate season rotation. Archives current save, carries forward players, wipes the world.</p>
+        <button class="danger" id="rotate-btn">Force Rotate Season</button>
+        <span id="rotate-fb"></span>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script src="admin.js"></script>
+</body>
+</html>

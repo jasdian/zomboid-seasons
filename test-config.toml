@@ -1,0 +1,138 @@
+[server]
+bind = "127.0.0.1:3000"
+static_dir = "/tmp/zomboid-seasons-test/static"
+
+[zomboid]
+server_name = "test-server"
+saves_dir = "/tmp/zomboid-seasons-test/saves"
+config_dir = "/tmp/zomboid-seasons-test/config"
+archive_dir = "/tmp/zomboid-seasons-test/archives"
+rcon_host = "127.0.0.1"
+rcon_port = 27016
+rcon_pw_file = "/tmp/zomboid-seasons-test/rcon.pw"
+game_version = "Build 42.15.0 (Unstable)"
+sandbox_preset = "Outbreak"
+max_players = 20
+
+[eth]
+rpc_url = "http://localhost:8545"
+deposit_address = "0x0000000000000000000000000000000000000000"
+
+[admin]
+token = "test-token"
+
+[database]
+url = "sqlite:///tmp/zomboid-seasons-test/seasons.db?mode=rwc"
+# Test key — do NOT use in production. Generate with: openssl rand -base64 32
+encryption_key = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+
+[leaderboard]
+data_dir = "/tmp/zomboid-seasons-test/mod-data"
+kills_file = "/tmp/zomboid-seasons-test/mod-data/kills.json"
+poll_interval_secs = 60
+leaderboard_size = 50
+top_killers_reward_count = 3
+
+
+[supply_drops]
+enabled = true
+min_interval_hours = 6.0
+max_interval_hours = 12.0
+announce_minutes = 15
+expire_hours = 2.0
+
+[[supply_drops.loot_weights]]
+tier = "standard"
+weight = 25
+
+[[supply_drops.loot_weights]]
+tier = "mixed"
+weight = 20
+
+[[supply_drops.loot_weights]]
+tier = "survival"
+weight = 15
+
+[[supply_drops.loot_weights]]
+tier = "medical"
+weight = 15
+
+[[supply_drops.loot_weights]]
+tier = "builder"
+weight = 10
+
+[[supply_drops.loot_weights]]
+tier = "tactical"
+weight = 10
+
+[[supply_drops.loot_weights]]
+tier = "military"
+weight = 5
+
+[[supply_drops.pois]]
+name = "Bright Flag Inn"
+x = 8022
+y = 11441
+
+[[supply_drops.pois]]
+name = "West Point Hotel"
+x = 12016
+y = 6920
+
+[[supply_drops.pois]]
+name = "McCoy Logging Corp"
+x = 10324
+y = 9594
+
+[[supply_drops.pois]]
+name = "Knox Bank West Point"
+x = 11909
+y = 6913
+
+[[supply_drops.pois]]
+name = "West Point Town Hall"
+x = 11952
+y = 6872
+
+[[supply_drops.pois]]
+name = "Riverside Pharmacy"
+x = 6469
+y = 5265
+
+[[supply_drops.pois]]
+name = "Muldraugh Gas Station"
+x = 10668
+y = 10625
+
+[[supply_drops.pois]]
+name = "Muldraugh Police Station"
+x = 10636
+y = 10411
+
+[[supply_drops.pois]]
+name = "Muldraugh Warehouse"
+x = 10617
+y = 9313
+
+[[supply_drops.pois]]
+name = "Rosewood Fire Station"
+x = 8148
+y = 11730
+
+[[supply_drops.pois]]
+name = "Rosewood Police Station"
+x = 8083
+y = 11733
+
+[[supply_drops.pois]]
+name = "Rosewood School"
+x = 8383
+y = 11605
+
+[events]
+events_file = "/tmp/zomboid-seasons-test/mod-data/events.json"
+poll_interval_secs = 30
+
+[logging]
+level = "info"
+format = "pretty"

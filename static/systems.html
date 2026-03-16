@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Server Systems — Zomboid Seasons</title>
+<meta name="description" content="Game systems, server rules, and mod features for the Zomboid Seasons Project Zomboid server.">
+<meta property="og:title" content="Server Systems — Zomboid Seasons">
+<meta property="og:description" content="Game systems, server rules, and mod features for the Zomboid Seasons PZ server.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zomboid.example.com/systems.html">
+<link rel="canonical" href="https://zomboid.example.com/systems.html">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="systems.css">
+<script src="nav.js" defer></script>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Zomboid Seasons</h1>
+    <div class="sub">Seasonal Survival Server</div>
+    <nav></nav>
+  </header>
+
+  <section class="panel">
+    <div class="ph"><span class="dot"></span><h2>Season Rotation</h2></div>
+    <div class="pb">
+      <p class="sys-desc">
+        Every <strong>90 days</strong> the world resets. The current save is archived as a
+        downloadable <strong>.tar.gz</strong> and a fresh map is generated. All confirmed
+        players are automatically carried forward to the new season.
+      </p>
+      <p class="sys-desc">
+        Past season saves are available for download on the home page under
+        <strong>Season History</strong>.
+      </p>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="ph"><h2>Registration & Payment</h2></div>
+    <div class="pb">
+      <p class="sys-desc">
+        Register with your Zomboid username, password, and Steam ID. Pay the season fee
+        in <strong>ETH</strong> to the server's deposit address. Each registration gets a
+        unique <strong>wei offset</strong> so payments are matched automatically — send the
+        exact amount shown.
+      </p>
+      <p class="sys-desc">
+        Have a <strong>promo code</strong>? Enter it during registration for a discount
+        (up to 100% off). Once payment confirms on-chain, you're whitelisted immediately.
+      </p>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="ph"><h2>Starter Kit</h2></div>
+    <div class="pb">
+      <p class="sys-desc">
+        Every player receives a <strong>Schoolbag</strong>, a <strong>Kitchen Knife</strong>,
+        a <strong>Hand Axe</strong>, and a <strong>First Aid Kit</strong> (stocked with bandages, alcohol wipes,
+        painkillers, and cotton balls) on their first login each season. Just enough to get moving
+        without trivializing the early game.
+      </p>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="ph"><h2>Scoring & Leaderboard</h2></div>
+    <div class="pb">
+      <p class="sys-desc">
+        Your season score comes from three components, all based on your
+        <strong>single best character</strong> (highest combined kill + survival score)
+        plus your login consistency:
+      </p>
+      <table class="sys-table">
+        <thead><tr><th>Component</th><th>Formula</th><th>Max</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Online</strong></td><td>10 pts per day online (30min minimum)</td><td>~900</td></tr>
+          <tr><td><strong>Kills</strong></td><td>500 &times; (1 &minus; e<sup>&minus;kills/200</sup>), capped at 1000 kills</td><td>~497</td></tr>
+          <tr><td><strong>Survival</strong></td><td>700 &times; (days/30)<sup>2</sup>, capped at 30 game-days</td><td>700</td></tr>
+        </tbody>
+      </table>
+      <p class="sys-desc">
+        Survival is exponential and back-loaded: dying on day 29 is devastating.
+        Kills have diminishing returns past ~200. This creates a real tradeoff between
+        aggressive play and cautious survival.
+      </p>
+      <p class="sys-desc">
+        At season end, your score is credited to your <strong>permanent account balance</strong>.
+        Top <strong>3</strong> scorers get <strong>free registration</strong> for the next season.
+      </p>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="ph"><h2>Supply Drops</h2></div>
+    <div class="pb">
+      <p class="sys-desc">
+        Crates of loot are dropped at random points of interest. Three tiers:
+      </p>
+      <ul class="sys-list">
+        <li><span class="tier tier-std">Standard</span> — general supplies and tools</li>
+        <li><span class="tier tier-mil">Military</span> — weapons and ammunition</li>
+        <li><span class="tier tier-med">Medical</span> — first aid and medicine</li>
+        <li><span class="tier tier-surv">Survival</span> — camping gear, food, and navigation</li>
+        <li><span class="tier tier-bld">Builder</span> — generator, lumber, nails, and tools</li>
+        <li><span class="tier tier-tac">Tactical</span> — sidearms, ammo, radios, and gear</li>
+        <li><span class="tier tier-mix">Mixed</span> — a bit of everything</li>
+      </ul>
+      <p class="sys-desc">
+        Drops follow a lifecycle: <strong>Announced</strong> (location revealed) →
+        <strong>Active</strong> (crate spawned, lootable) → <strong>Claimed</strong> or
+        <strong>Expired</strong>. Check the home page for current drop status.
+      </p>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>
