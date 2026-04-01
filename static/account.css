@@ -1,0 +1,93 @@
+/* ── Account Page ── */
+
+.search-row {
+  display: flex;
+  gap: .5rem;
+}
+
+.search-row input {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.search-row button {
+  white-space: nowrap;
+}
+
+.acct-error {
+  margin-top: .8rem;
+  font-size: .82rem;
+  color: var(--ered);
+}
+
+.balance-row {
+  display: flex;
+  align-items: baseline;
+  gap: .4rem;
+  margin-bottom: 1.2rem;
+}
+
+.balance-label {
+  font-size: .7rem;
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+.balance-val {
+  font-size: 1.8rem;
+  color: var(--grn);
+  font-weight: bold;
+}
+
+.balance-unit {
+  font-size: .75rem;
+  color: var(--dim);
+}
+
+.daily-bonus {
+  font-size: .65rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .2rem .6rem;
+  border-radius: 2px;
+  white-space: nowrap;
+  margin-left: .5rem;
+}
+
+.daily-bonus.earned {
+  color: var(--grn);
+  background: rgba(74, 222, 128, .1);
+  border: 1px solid rgba(74, 222, 128, .25);
+}
+
+.daily-bonus.pending {
+  color: var(--dim);
+  background: rgba(124, 144, 124, .1);
+  border: 1px solid rgba(124, 144, 124, .25);
+}
+
+.section-h {
+  font-size: .7rem;
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  margin-bottom: .5rem;
+  border-bottom: 1px solid var(--brd);
+  padding-bottom: .3rem;
+}
+
+.num-col { text-align: right; font-variant-numeric: tabular-nums }
+
+.acct-empty {
+  text-align: center;
+  padding: 1rem;
+  color: var(--dim);
+  font-size: .82rem;
+}
+
+@media (max-width: 480px) {
+  .search-row { flex-direction: column }
+  .search-row button { width: 100% }
+  .balance-val { font-size: 1.4rem }
+}

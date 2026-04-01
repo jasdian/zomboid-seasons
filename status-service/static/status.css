@@ -1,0 +1,359 @@
+/* ── Status Page — Specific Styles ── */
+
+/* ── Overall Status Banner ── */
+
+.status-banner {
+  text-align: center;
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--brd);
+  font-size: .85rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.status-banner.st-operational {
+  color: var(--grn);
+  border-color: var(--grn);
+  background: rgba(74, 222, 128, .06);
+}
+
+.status-banner.st-degraded {
+  color: var(--yel);
+  border-color: var(--yel);
+  background: rgba(251, 191, 36, .06);
+}
+
+.status-banner.st-major_outage {
+  color: var(--ered);
+  border-color: var(--ered);
+  background: rgba(248, 113, 113, .06);
+}
+
+/* ── Maintenance Banner ── */
+
+.maintenance-banner {
+  text-align: center;
+  padding: .8rem;
+  margin-bottom: .8rem;
+  border: 1px solid #60a5fa;
+  color: #60a5fa;
+  background: rgba(96, 165, 250, .06);
+  font-size: .78rem;
+  letter-spacing: .05em;
+}
+
+/* ── Component List ── */
+
+.comp-list {
+  list-style: none;
+}
+
+.comp-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .65rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .03);
+}
+
+.comp-item:last-child { border-bottom: none }
+
+.comp-name {
+  font-size: .85rem;
+}
+
+.comp-desc {
+  font-size: .7rem;
+  color: var(--dim);
+}
+
+/* ── Status Pills ── */
+
+.pill {
+  font-size: .65rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .2rem .6rem;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.pill-operational {
+  color: var(--grn);
+  background: rgba(74, 222, 128, .1);
+  border: 1px solid rgba(74, 222, 128, .25);
+}
+
+.pill-degraded {
+  color: var(--yel);
+  background: rgba(251, 191, 36, .1);
+  border: 1px solid rgba(251, 191, 36, .25);
+}
+
+.pill-major_outage {
+  color: var(--ered);
+  background: rgba(248, 113, 113, .1);
+  border: 1px solid rgba(248, 113, 113, .25);
+}
+
+/* ── Uptime Bars ── */
+
+.uptime-component { margin-bottom: 1.5rem }
+.uptime-component:last-child { margin-bottom: 0 }
+
+.uptime-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: .78rem;
+  margin-bottom: .4rem;
+}
+.uptime-header .name { color: var(--txt) }
+.uptime-header .pct { color: var(--dim); font-size: .7rem }
+
+.uptime-bar {
+  display: flex;
+  gap: 1px;
+  height: 28px;
+  align-items: stretch;
+}
+
+.uptime-bar .day {
+  flex: 1;
+  min-width: 2px;
+  border-radius: 1px;
+  cursor: pointer;
+  position: relative;
+  transition: opacity .1s;
+}
+
+.uptime-bar .day:hover { filter: brightness(.6) }
+.uptime-bar .day:hover .tip { filter: brightness(calc(1 / .6)) }
+
+.uptime-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: .6rem;
+  color: var(--dim);
+  margin-top: .25rem;
+}
+
+.uptime-bar .day .tip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--panel);
+  border: 1px solid var(--brd);
+  padding: .3rem .5rem;
+  font-size: .65rem;
+  color: var(--txt);
+  white-space: nowrap;
+  z-index: 10;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,.4);
+}
+
+.uptime-bar .day:hover .tip { display: block }
+
+/* Pill additions for new statuses */
+.pill-partial_outage {
+  color: #f0a020;
+  background: rgba(240, 160, 32, .1);
+  border: 1px solid rgba(240, 160, 32, .25);
+}
+.pill-maintenance {
+  color: #60a5fa;
+  background: rgba(96, 165, 250, .1);
+  border: 1px solid rgba(96, 165, 250, .25);
+}
+
+/* Banner additions */
+.status-banner.st-partial_outage {
+  color: #f0a020;
+  border-color: #f0a020;
+  background: rgba(240, 160, 32, .06);
+}
+.status-banner.st-maintenance {
+  color: #60a5fa;
+  border-color: #60a5fa;
+  background: rgba(96, 165, 250, .06);
+}
+
+/* ── Incidents ── */
+
+.incident {
+  margin-bottom: 1.2rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--brd);
+}
+
+.incident:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.incident-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: .5rem;
+  flex-wrap: wrap;
+  gap: .3rem;
+}
+
+.incident-title {
+  font-size: .85rem;
+  color: var(--txt);
+  font-weight: bold;
+}
+
+.incident-severity {
+  font-size: .65rem;
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.incident-components {
+  font-size: .7rem;
+  color: var(--dim);
+  margin-bottom: .5rem;
+}
+
+/* ── Update Timeline ── */
+
+.update-timeline {
+  list-style: none;
+  padding-left: .8rem;
+  border-left: 2px solid var(--brd);
+}
+
+.update-entry {
+  padding: .4rem 0 .4rem .8rem;
+  font-size: .78rem;
+  position: relative;
+}
+
+.update-entry::before {
+  content: '';
+  position: absolute;
+  left: -.8rem;
+  top: .7rem;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dim);
+  margin-left: -2px;
+}
+
+.update-entry:first-child::before {
+  background: var(--cu);
+}
+
+.update-status {
+  font-weight: bold;
+  text-transform: capitalize;
+  color: var(--cu);
+  margin-right: .4rem;
+}
+
+.update-msg {
+  color: var(--txt);
+}
+
+.update-time {
+  display: block;
+  font-size: .65rem;
+  color: var(--dim);
+  margin-top: .15rem;
+}
+
+/* ── Past Incidents (grouped by date) ── */
+
+.date-group {
+  margin-bottom: 1.5rem;
+}
+
+.date-group:last-child { margin-bottom: 0 }
+
+.date-label {
+  font-size: .7rem;
+  color: var(--dim);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding-bottom: .4rem;
+  border-bottom: 1px solid var(--brd);
+  margin-bottom: .8rem;
+}
+
+/* ── Empty State ── */
+
+.empty-state {
+  text-align: center;
+  color: var(--dim);
+  font-size: .85rem;
+  padding: 1rem 0;
+}
+
+/* ── Auto-refresh indicator ── */
+
+.refresh-note {
+  text-align: center;
+  font-size: .65rem;
+  color: var(--dim);
+  margin-top: .5rem;
+}
+
+/* ── RSS/Atom Feed Button ── */
+
+.rss-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  font-size: .65rem;
+  color: var(--cu);
+  text-decoration: none;
+  border: 1px solid var(--brd);
+  padding: .2rem .5rem;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.rss-btn:hover {
+  background: rgba(45,106,79,.15);
+  border-color: var(--cu);
+}
+
+/* ── Past Maintenance ── */
+
+.maint-history-item {
+  padding: .6rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .03);
+}
+.maint-history-item:last-child { border-bottom: none }
+
+.maint-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.maint-history-title {
+  font-size: .82rem;
+  color: #60a5fa;
+}
+
+.maint-history-dur {
+  font-size: .7rem;
+  color: var(--dim);
+}
+
+.maint-history-meta {
+  font-size: .68rem;
+  color: var(--dim);
+  margin-top: .15rem;
+}

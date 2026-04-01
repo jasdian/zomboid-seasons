@@ -1,0 +1,31 @@
+# Zomboid Seasons
+
+> Seasonal Project Zomboid survival server with Ethereum payment integration.
+
+Zomboid Seasons runs 90-day competitive survival seasons on a dedicated Project Zomboid (Build 42) server. Players register and pay a small ETH fee to get whitelisted. Each season resets the world. Top zombie killers earn free registration for the next season — everyone else must re-register and pay.
+
+## How it works
+- Register with your Steam ID and Zomboid username
+- Pay the registration fee in ETH (or use a promo code)
+- Get whitelisted immediately upon payment confirmation
+- Survive for 90 days — compete on the zombie kill leaderboard
+- Top zombie killers earn recognition at season end
+- Supply drops appear at random POIs for active players to claim
+
+## Pages
+- [Home](https://zomboid.princeofcrypto.com/): Registration, season info, supply drops
+- [Leaderboard](https://zomboid.princeofcrypto.com/leaderboard.html): Zombie kill rankings
+- [Systems](https://zomboid.princeofcrypto.com/systems.html): Server rules and game systems
+- [Status](https://zomboid.princeofcrypto.com/status.html): Server status and incidents
+
+## API
+- GET /api/season — Current season info (id, status, dates, player count, fee)
+- GET /api/seasons — All seasons history
+- GET /api/leaderboard — Zombie kill leaderboard
+- GET /api/supply-drops — Active supply drops
+- GET /api/supply-drops/pois — Points of interest for supply drops
+- GET /api/status — Server component status and incidents
+- GET /api/gametime — Current in-game time
+- POST /api/register — Register for the current season
+- GET /api/register/{id} — Check registration status
+- GET /api/saves/{season_id} — Download archived season save

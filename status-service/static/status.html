@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Status — Zomboid Seasons</title>
+<meta name="description" content="Current operational status of Zomboid Seasons game server, backend API, and payment processing.">
+<meta property="og:title" content="Status — Zomboid Seasons">
+<meta property="og:description" content="Current operational status of Zomboid Seasons game server, backend API, and payment processing.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zomboid.princeofcrypto.com/status.html">
+<link rel="canonical" href="https://zomboid.princeofcrypto.com/status.html">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="status.css">
+<link rel="alternate" type="application/atom+xml" title="Status Feed" href="/api/status/feed.atom">
+<script src="nav.js" defer></script>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Zomboid Seasons</h1>
+    <div class="sub">Seasonal Survival Server</div>
+    <nav></nav>
+  </header>
+
+  <div id="status-banner" class="status-banner st-operational">All Systems Operational</div>
+
+  <div id="maintenance-banners"></div>
+
+  <section class="panel">
+    <div class="ph"><span class="dot"></span><h2>Components</h2></div>
+    <div class="pb">
+      <ul class="comp-list" id="comp-list">
+        <li class="empty-state">Loading...</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="panel" id="uptime-section">
+    <div class="ph"><span class="dot"></span><h2>Uptime</h2></div>
+    <div class="pb" id="uptime">Loading...</div>
+  </section>
+
+  <section class="panel" id="active-panel">
+    <div class="ph"><span class="dot dot-r"></span><h2>Active Incidents</h2></div>
+    <div class="pb" id="active-incidents">
+      <div class="empty-state">Loading...</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="ph"><h2>Past Incidents</h2></div>
+    <div class="pb" id="past-incidents">
+      <div class="empty-state">Loading...</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="ph"><h2>Past Maintenance</h2></div>
+    <div class="pb" id="past-maintenance">
+      <div class="empty-state">Loading...</div>
+    </div>
+  </section>
+
+  <div class="refresh-note">Auto-refreshes every 60 seconds</div>
+</main>
+
+<script src="status.js"></script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Uptime — Zomboid Seasons</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="status.css">
+<script src="nav.js" defer></script>
+<style>
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: .8rem;
+}
+.controls select {
+  width: auto;
+  min-width: 180px;
+  margin: 0;
+}
+.month-nav {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+}
+.month-nav button {
+  background: transparent;
+  color: var(--cu);
+  border: 1px solid var(--brd);
+  padding: .3rem .6rem;
+  font-size: .8rem;
+  cursor: pointer;
+}
+.month-nav button:hover {
+  background: rgba(45,106,79,.15);
+  border-color: var(--cu);
+}
+.month-nav .range {
+  font-size: .78rem;
+  color: var(--dim);
+}
+.calendar-month {
+  margin-bottom: 2rem;
+}
+.calendar-month:last-child { margin-bottom: 0 }
+.cal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: .5rem;
+}
+.cal-header .month-name {
+  font-size: .85rem;
+  color: var(--txt);
+}
+.cal-header .month-pct {
+  font-size: .72rem;
+  color: var(--dim);
+}
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+.cal-grid .day-label {
+  text-align: center;
+  font-size: .55rem;
+  color: var(--dim);
+  padding-bottom: .2rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.cal-grid .cal-day {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+  min-height: 20px;
+}
+.cal-grid .cal-day:hover { opacity: .65 }
+    .cal-grid .cal-day:hover .tip { opacity: calc(1 / .65) }
+.cal-grid .cal-day.empty {
+  background: transparent;
+  cursor: default;
+}
+.cal-grid .cal-day.future {
+  background: #1a1a1a;
+  cursor: default;
+}
+.cal-grid .cal-day .tip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--panel);
+  border: 1px solid var(--brd);
+  padding: .3rem .5rem;
+  font-size: .65rem;
+  color: var(--txt);
+  white-space: nowrap;
+  z-index: 10;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,.4);
+}
+.cal-grid .cal-day:hover .tip { display: block }
+.cal-day-num {
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  font-size: .5rem;
+  color: rgba(0,0,0,.6);
+  font-weight: bold;
+}
+.cal-legend {
+  display: flex;
+  gap: .8rem;
+  justify-content: center;
+  margin-top: 1rem;
+  font-size: .6rem;
+  color: var(--dim);
+}
+.cal-legend .swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 1px;
+  margin-right: 3px;
+  vertical-align: middle;
+}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Zomboid Seasons</h1>
+    <div class="sub">Uptime History</div>
+    <nav></nav>
+  </header>
+
+  <div class="controls">
+    <select id="comp-select"><option value="">Loading...</option></select>
+    <div class="month-nav">
+      <button id="nav-prev">&larr;</button>
+      <span class="range" id="month-range">...</span>
+      <button id="nav-next">&rarr;</button>
+    </div>
+  </div>
+
+  <div id="calendar">
+    <div class="empty-state">Loading...</div>
+  </div>
+
+  <div class="cal-legend">
+    <span><span class="swatch" style="background:#48c78e"></span>100%</span>
+    <span><span class="swatch" style="background:#7bb83e"></span>99%+</span>
+    <span><span class="swatch" style="background:#f0a020"></span>95%+</span>
+    <span><span class="swatch" style="background:#e04040"></span>&lt;95%</span>
+    <span><span class="swatch" style="background:#3a3a3a"></span>No data</span>
+  </div>
+</main>
+
+<script>
+const $=s=>document.querySelector(s);
+
+function uptimeColor(pct){
+  if(pct===null||pct===undefined)return '#3a3a3a';
+  if(pct>=100)return '#48c78e';
+  if(pct>=99)return '#7bb83e';
+  if(pct>=95)return '#f0a020';
+  return '#e04040';
+}
+
+const MONTH_NAMES=['January','February','March','April','May','June',
+  'July','August','September','October','November','December'];
+
+let currentYear, currentMonth, selectedComponent;
+
+function init(){
+  const now=new Date();
+  currentYear=now.getFullYear();
+  currentMonth=now.getMonth(); // 0-based
+  loadComponents();
+}
+
+async function loadComponents(){
+  try{
+    const r=await fetch('/api/status');if(!r.ok)return;
+    const data=await r.json();
+    const sel=$('#comp-select');
+    if(!data.components.length){sel.innerHTML='<option>No components</option>';return}
+    sel.innerHTML=data.components.map((c,i)=>
+      `<option value="${c.id}"${i===0?' selected':''}>${c.name}</option>`
+    ).join('');
+    selectedComponent=data.components[0].id;
+    sel.addEventListener('change',()=>{selectedComponent=sel.value;loadCalendar()});
+    loadCalendar();
+  }catch{$('#calendar').innerHTML='<div class="empty-state">Failed to load</div>'}
+}
+
+function monthStr(y,m){return `${y}-${String(m+1).padStart(2,'0')}`}
+
+function getMonthRange(){
+  // Show 3 months: current-1, current, current+1
+  const months=[];
+  for(let offset=-1;offset<=1;offset++){
+    let y=currentYear, m=currentMonth+offset;
+    if(m<0){m+=12;y--}
+    if(m>11){m-=12;y++}
+    months.push({year:y,month:m,str:monthStr(y,m)});
+  }
+  return months;
+}
+
+function updateRangeLabel(){
+  const range=getMonthRange();
+  const first=range[0], last=range[range.length-1];
+  $('#month-range').textContent=
+    `${MONTH_NAMES[first.month]} ${first.year} — ${MONTH_NAMES[last.month]} ${last.year}`;
+}
+
+async function loadCalendar(){
+  if(!selectedComponent)return;
+  updateRangeLabel();
+  const range=getMonthRange();
+  const monthsParam=range.map(r=>r.str).join(',');
+  const el=$('#calendar');
+  try{
+    const r=await fetch(`/api/status/uptime/calendar?component=${encodeURIComponent(selectedComponent)}&months=${monthsParam}`);
+    if(!r.ok)throw 0;
+    const data=await r.json();
+    const today=new Date().toISOString().slice(0,10);
+
+    el.innerHTML=data.months.map(m=>{
+      const pctStr=m.uptime_percent!==null?m.uptime_percent.toFixed(2)+'%':'N/A';
+      const [y,mo]=m.month.split('-').map(Number);
+      const monthName=MONTH_NAMES[mo-1];
+
+      // Build day lookup
+      const dayMap={};
+      m.days.forEach(d=>{dayMap[d.date]=d});
+
+      // First day of month (0=Sun, 1=Mon, ..., 6=Sat)
+      // Convert to Mon=0 grid
+      const firstDate=new Date(y,mo-1,1);
+      const daysInMonth=new Date(y,mo,0).getDate();
+      let startDay=firstDate.getDay()-1; // Mon=0
+      if(startDay<0)startDay=6; // Sun=6
+
+      let cells='';
+      // Day labels
+      ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(d=>{
+        cells+=`<div class="day-label">${d}</div>`;
+      });
+      // Empty cells before first day
+      for(let i=0;i<startDay;i++){
+        cells+='<div class="cal-day empty"></div>';
+      }
+      // Actual days
+      for(let d=1;d<=daysInMonth;d++){
+        const dateStr=`${m.month}-${String(d).padStart(2,'0')}`;
+        const dayData=dayMap[dateStr];
+        const isFuture=dateStr>today;
+        if(isFuture){
+          cells+=`<div class="cal-day future"><span class="cal-day-num">${d}</span></div>`;
+        }else if(dayData){
+          const color=uptimeColor(dayData.uptime_percent);
+          const pct=dayData.uptime_percent!==null?dayData.uptime_percent.toFixed(1)+'%':'N/A';
+          const inc=dayData.incident_count===1?'1 incident':(dayData.incident_count||0)+' incidents';
+          cells+=`<div class="cal-day" style="background:${color}">
+            <span class="cal-day-num">${d}</span>
+            <span class="tip">${dateStr} — ${pct} — ${inc}</span>
+          </div>`;
+        }else{
+          cells+=`<div class="cal-day" style="background:#3a3a3a">
+            <span class="cal-day-num">${d}</span>
+            <span class="tip">${dateStr} — No data</span>
+          </div>`;
+        }
+      }
+
+      return `<div class="calendar-month">
+        <div class="cal-header">
+          <span class="month-name">${monthName} ${y}</span>
+          <span class="month-pct">${pctStr}</span>
+        </div>
+        <div class="cal-grid">${cells}</div>
+      </div>`;
+    }).join('');
+  }catch{el.innerHTML='<div class="empty-state">Failed to load uptime data</div>'}
+}
+
+$('#nav-prev').addEventListener('click',()=>{
+  currentMonth--;
+  if(currentMonth<0){currentMonth=11;currentYear--}
+  loadCalendar();
+});
+$('#nav-next').addEventListener('click',()=>{
+  currentMonth++;
+  if(currentMonth>11){currentMonth=0;currentYear++}
+  loadCalendar();
+});
+
+init();
+</script>
+</body>
+</html>

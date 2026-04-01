@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Incident Detail — Zomboid Seasons</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="status.css">
+<script src="nav.js" defer></script>
+<style>
+.detail-meta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: .78rem;
+}
+.detail-meta .severity {
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-size: .65rem;
+  color: var(--dim);
+}
+.detail-meta .duration {
+  font-size: .7rem;
+  color: var(--dim);
+}
+.detail-components {
+  font-size: .72rem;
+  color: var(--dim);
+  margin-bottom: 1rem;
+}
+.detail-postmortem {
+  margin-top: 1rem;
+  padding: .8rem;
+  background: rgba(45,106,79,.08);
+  border-left: 2px solid var(--cu);
+  font-size: .78rem;
+}
+.detail-postmortem strong {
+  color: var(--cu);
+  font-size: .65rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.back-link {
+  font-size: .75rem;
+  color: var(--cu);
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+.back-link:hover { text-decoration: underline }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Zomboid Seasons</h1>
+    <div class="sub">Incident Detail</div>
+    <nav></nav>
+  </header>
+
+  <a href="/history.html" class="back-link">&larr; Back to history</a>
+
+  <div id="incident-detail">
+    <div class="empty-state">Loading...</div>
+  </div>
+</main>
+
+<script>
+const $=s=>document.querySelector(s);
+
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+
+function fmtDuration(ms){
+  const mins=Math.round(ms/60000);
+  if(mins<60)return mins+'m';
+  const hrs=Math.floor(mins/60);
+  const rm=mins%60;
+  if(hrs<24)return rm?`${hrs}h ${rm}m`:`${hrs}h`;
+  const days=Math.floor(hrs/24);
+  const rh=hrs%24;
+  return rh?`${days}d ${rh}h`:`${days}d`;
+}
+
+function fmtTime(iso){
+  return new Date(iso).toLocaleString('en-US',{
+    month:'short',day:'numeric',year:'numeric',
+    hour:'2-digit',minute:'2-digit',timeZoneName:'short'
+  });
+}
+
+function pillHtml(status){
+  const labels={operational:'Operational',degraded:'Degraded',partial_outage:'Partial Outage',major_outage:'Major Outage',maintenance:'Maintenance',
+    investigating:'Investigating',identified:'Identified',monitoring:'Monitoring',resolved:'Resolved'};
+  return `<span class="pill pill-${status}">${labels[status]||status}</span>`;
+}
+
+async function loadIncident(){
+  const el=$('#incident-detail');
+  const params=new URLSearchParams(window.location.search);
+  const id=params.get('id');
+  if(!id){el.innerHTML='<div class="empty-state">No incident ID provided</div>';return}
+
+  try{
+    const r=await fetch(`/api/status/incidents/${encodeURIComponent(id)}`);
+    if(r.status===404){el.innerHTML='<div class="empty-state">Incident not found</div>';return}
+    if(!r.ok)throw 0;
+    const inc=await r.json();
+
+    document.title=`${inc.title} — Zomboid Seasons`;
+
+    const start=fmtTime(inc.created_at);
+    const end=inc.resolved_at?fmtTime(inc.resolved_at):'ongoing';
+    const dur=inc.resolved_at?fmtDuration(new Date(inc.resolved_at)-new Date(inc.created_at)):'';
+
+    const updates=(inc.updates||[]).map(u=>
+      `<li class="update-entry">
+        <span class="update-status">${u.status}</span>
+        <span class="update-msg">${esc(u.message)}</span>
+        <span class="update-time">${fmtTime(u.created_at)}</span>
+      </li>`
+    ).join('');
+
+    const comps=inc.component_ids.length?
+      `<div class="detail-components">Affecting: ${inc.component_ids.join(', ')}</div>`:'';
+
+    const postmortem=inc.postmortem_body?
+      `<div class="detail-postmortem">
+        <strong>Postmortem</strong><br>
+        ${esc(inc.postmortem_body)}
+      </div>`:'';
+
+    el.innerHTML=`
+      <section class="panel">
+        <div class="ph"><h2>${esc(inc.title)}</h2></div>
+        <div class="pb">
+          <div class="detail-meta">
+            ${pillHtml(inc.status)}
+            <span class="severity">${inc.severity}</span>
+            <span class="duration">${start} — ${end}${dur?' ('+dur+')':''}</span>
+          </div>
+          ${comps}
+          <ul class="update-timeline">${updates}</ul>
+          ${postmortem}
+        </div>
+      </section>
+    `;
+  }catch{el.innerHTML='<div class="empty-state">Failed to load incident</div>'}
+}
+
+loadIncident();
+</script>
+</body>
+</html>

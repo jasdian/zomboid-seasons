@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zomboid Seasons — Seasonal PZ Survival Server</title>
+<meta name="description" content="Competitive 90-day Project Zomboid survival seasons with ETH registration, zombie kill leaderboards, and supply drops. Build 42.">
+<meta name="keywords" content="Project Zomboid, PZ server, survival, seasonal, zombie, Ethereum, Build 42, multiplayer">
+<meta property="og:title" content="Zomboid Seasons — Seasonal PZ Survival Server">
+<meta property="og:description" content="Competitive 90-day Project Zomboid survival seasons with ETH registration, zombie kill leaderboards, and supply drops.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zomboid.princeofcrypto.com/">
+<link rel="canonical" href="https://zomboid.princeofcrypto.com/">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="index.css">
+<script src="nav.js" defer></script>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Zomboid Seasons</h1>
+    <div class="sub" id="server-sub">Seasonal Survival Server</div>
+    <nav></nav>
+  </header>
+
+  <section class="panel">
+    <div class="ph"><span class="dot"></span><h2 id="s-title">Current Season</h2></div>
+    <div class="pb">
+      <div class="stats">
+        <div class="stat"><span class="v" id="p-count">-</span><span class="l">Players</span></div>
+        <div class="stat"><span class="v" id="reg-cost">-</span><span class="l">Registration Fee</span></div>
+      </div>
+      <div class="cb"><div class="l">Season Ends In</div><div class="cd" id="countdown">--:--:--</div></div>
+      <div class="time-info" id="game-time"></div>
+      <div class="time-info">1.5 real hours = 1 in-game day</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="ph"><h2>Register</h2></div>
+    <div class="pb">
+      <form id="reg-form">
+        <label for="f_name">Zomboid Username</label>
+        <input type="text" id="f_name" required maxlength="50" placeholder="YourUsername">
+        <label for="f_pass">Zomboid Password</label>
+        <input type="password" id="f_pass" required maxlength="128" placeholder="Choose a server password">
+        <small>This password is for the game server only. Do NOT reuse a real password.</small>
+        <label for="f_steam">Steam ID (optional)</label>
+        <input type="text" id="f_steam" placeholder="e.g. 76561198012345678" pattern="[0-9]{17}">
+        <small>Your 17-digit Steam ID. Providing it earns leaderboard points. Find it at <a href="https://steamdb.info" target="_blank">steamdb.info</a> (use steamID64).</small>
+        <label for="f_promo">Promo Code (optional)</label>
+        <input type="text" id="f_promo" placeholder="e.g. FREESEASON">
+        <div id="eth-field">
+          <label for="f_eth">Ethereum Wallet Address</label>
+          <input type="text" id="f_eth" placeholder="0x..." pattern="0x[0-9a-fA-F]{40}">
+          <small>Your wallet address for sending the registration payment</small>
+        </div>
+        <button type="submit" id="reg-btn">Register</button>
+      </form>
+      <div id="reg-result" class="hidden"></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="ph"><h2>Check Registration</h2></div>
+    <div class="pb">
+      <form id="chk-form">
+        <label for="reg_id">Registration ID</label>
+        <input type="text" id="reg_id" required placeholder="Enter your UUID">
+        <button type="submit">Check Status</button>
+      </form>
+      <div id="chk-result" class="hidden"></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="ph"><h2>Supply Drops</h2></div>
+    <div class="pb">
+      <table><thead>
+        <tr><th>Location</th><th>Status</th><th>Time</th><th>Claimed By</th></tr>
+      </thead><tbody id="drops-tbody"><tr><td colspan="4">Loading...</td></tr></tbody></table>
+      <div id="drops-empty" class="hidden drops-empty">
+        No supply drops yet this season.
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="ph"><h2>Season History</h2></div>
+    <div class="pb">
+      <table><thead>
+        <tr><th>Season</th><th>Status</th><th>Started</th><th>Ended</th><th>Save</th></tr>
+      </thead><tbody id="s-tbody"><tr><td colspan="5">Loading...</td></tr></tbody></table>
+    </div>
+  </section>
+</main>
+
+<script src="index.js"></script>
+</body>
+</html>
