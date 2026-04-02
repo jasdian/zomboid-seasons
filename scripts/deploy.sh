@@ -89,7 +89,7 @@ else
     "
 
     echo "==> Building and restarting backend container..."
-    $SSH_CMD "cd ${REMOTE_DIR} && docker compose up -d --build backend"
+    $SSH_CMD "cd ${REMOTE_DIR} && docker compose up -d --build --force-recreate backend"
 
     echo "==> Waiting for backend to become healthy..."
     for i in $(seq 1 30); do
