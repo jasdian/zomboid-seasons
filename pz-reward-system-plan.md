@@ -2,7 +2,7 @@
 
 ## Context
 
-- Project Zomboid B42.15 unstable multiplayer (WIP, ≤20 players recommended)
+- Project Zomboid B42.17 unstable multiplayer (WIP, ≤20 players recommended)
 - Server wipes every **90 real days** (one "season")
 - Game-time ratio: **24h game = 1.5h real**
 - Zombie kill tracking already exists (leaderboard)
@@ -152,7 +152,7 @@ Settlement is **season-end only** (v1). No mid-season spending. This is simpler,
 ```
 ┌──────────────┐    RCON / log parse     ┌───────────────┐
 │  PZ Server   │ ──────────────────────► │  RCON Listener │
-│  (B42.15)    │ ◄────────────────────── │  (Rust agent)  │
+│  (B42.17)    │ ◄────────────────────── │  (Rust agent)  │
 └──────────────┘    RCON commands        └───────┬───────┘
                                                  │ HTTP
                                                  ▼

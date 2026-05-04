@@ -10,7 +10,7 @@ archive_dir = "/tmp/zomboid-seasons-test/archives"
 rcon_host = "127.0.0.1"
 rcon_port = 27016
 rcon_pw_file = "/tmp/zomboid-seasons-test/rcon.pw"
-game_version = "Build 42.15.0 (Unstable)"
+game_version = "Build 42.17 (Unstable)"
 sandbox_preset = "Outbreak"
 max_players = 20
 

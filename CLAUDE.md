@@ -53,7 +53,8 @@ Three tables: `seasons` (id, status, dates, save_path), `registrations` (UUID id
 
 ### PZ Server Management
 
-- RCON commands: `adduser "user" "pass"`, `removeuserfromwhitelist "user"`, `save`, `quit`, `help`
+- RCON commands: `adduser "user" "pass"`, `removeuserfromwhitelist "user"`, `setaccesslevel "user" "admin|moderator|overseer|gm|observer|none"`, `save`, `quit`, `help`
+- Admin promotion: `./scripts/rcon.sh 'setaccesslevel "USERNAME" "admin"'`. Access level lives in `~/Zomboid/db/<server_name>.db` (outside save dir), so it survives rotation for any username that also carries forward.
 - Config: `~/Zomboid/Server/<server_name>.ini` (update `PublicName=`)
 - Saves: `~/Zomboid/Saves/Multiplayer/<server_name>/` (directory, not single file)
 - Wipe: delete save directory, PZ generates new world on next start

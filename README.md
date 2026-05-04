@@ -145,6 +145,28 @@ File: `/home/pzuser/Zomboid/Server/zomboid-seasons_SandboxVars.lua`
 
 Controls gameplay mechanics: zombie population, loot respawn, day length, erosion speed, infection settings, etc. Generated on first server start with defaults. Edit while server is stopped. Delete the file to reset to defaults.
 
+### Promoting a user to admin
+
+Admin / moderator privileges are managed through PZ's RCON, not through the backend. The user must already exist in PZ's user DB (added via `adduser` — the backend does this automatically once a registration is confirmed).
+
+```bash
+# Grant admin (full powers: god mode, teleport, item spawn, ban/kick, etc.)
+./scripts/rcon.sh 'setaccesslevel "USERNAME" "admin"'
+
+# Other roles (lower privilege, in descending order):
+./scripts/rcon.sh 'setaccesslevel "USERNAME" "moderator"'   # kick/ban, teleport, no item spawn
+./scripts/rcon.sh 'setaccesslevel "USERNAME" "overseer"'    # observer + light moderation
+./scripts/rcon.sh 'setaccesslevel "USERNAME" "gm"'          # god mode + spawn, no admin UI
+./scripts/rcon.sh 'setaccesslevel "USERNAME" "observer"'    # spectator/noclip only
+
+# Demote back to a regular player:
+./scripts/rcon.sh 'setaccesslevel "USERNAME" "none"'
+```
+
+Successful response: `User USERNAME is now admin`. Username is case-sensitive and must match exactly what's in `registrations.zomboid_username`.
+
+The access level is stored in PZ's user DB (`~/Zomboid/db/<server_name>.db`), which lives **outside** the save directory. Season rotation only wipes saves, so admin level survives rotation as long as the username carries forward (top-3 killers do automatically; everyone else has to re-register and pay, then be re-promoted).
+
 ### DNS
 
 Two types of DNS records are needed:
