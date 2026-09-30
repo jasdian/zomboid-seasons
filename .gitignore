@@ -1,0 +1,12 @@
+/target
+*.db
+*.db-shm
+*.db-wal
+.env
+.env.*
+!.env.example
+*.pw
+.claude/
+config.prod.toml
+status-config.prod.toml
+backup-users.txt

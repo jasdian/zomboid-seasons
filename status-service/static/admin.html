@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Status // Admin</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="admin.css">
+<script src="nav.js" defer></script>
+</head>
+<body>
+<main>
+  <header>
+    <h1>STATUS // ADMIN</h1>
+    <div class="sub">Incident & Component Management</div>
+    <nav></nav>
+  </header>
+
+  <section class="panel" id="auth-panel">
+    <div class="ph"><span class="dot dot-r"></span><h2>Access Terminal</h2></div>
+    <div class="pb">
+      <label for="admin-token">Admin Token</label>
+      <div class="row">
+        <input type="password" id="admin-token" placeholder="Enter admin token">
+        <button id="auth-btn">Connect</button>
+      </div>
+      <small id="auth-fb"></small>
+    </div>
+  </section>
+
+  <div id="dash" class="hidden">
+
+    <section class="panel">
+      <div class="ph"><span class="dot dot-g"></span><h2>Create Incident</h2></div>
+      <div class="pb">
+        <form id="incident-form">
+          <label>Title<input type="text" id="inc-title" required placeholder="e.g. Game server connectivity issues"></label>
+          <div class="g2">
+            <div><label>Severity<select id="inc-severity">
+              <option value="minor">Minor</option>
+              <option value="major">Major</option>
+              <option value="critical">Critical</option>
+            </select></label></div>
+            <div><label>Components</label>
+              <div id="inc-components" class="comp-checks"></div>
+            </div>
+          </div>
+          <label>Initial Message<textarea id="inc-message" rows="3" placeholder="Describe the issue..."></textarea></label>
+          <button type="submit">Create Incident</button>
+          <span id="incident-fb"></span>
+        </form>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="ph"><span class="dot dot-g"></span><h2>Active Incidents</h2></div>
+      <div class="pb">
+        <div id="active-incidents-admin">Loading...</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="ph"><span class="dot dot-g"></span><h2>Resolved Incidents</h2></div>
+      <div class="pb">
+        <div id="resolved-incidents-admin">Loading...</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="ph"><span class="dot dot-g"></span><h2>Component Overrides</h2></div>
+      <div class="pb">
+        <p class="section-desc">Override component status manually. Set to "Auto" to derive status from active incidents.</p>
+        <div id="comp-overrides">Loading...</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="ph"><span class="dot dot-g"></span><h2>Scheduled Maintenance</h2></div>
+      <div class="pb">
+        <details>
+          <summary>Schedule Maintenance Window</summary>
+          <form id="maint-form">
+            <label>Title<input type="text" id="m-title" required placeholder="e.g. Season rotation"></label>
+            <label>Description<textarea id="m-desc" rows="2" placeholder="Optional details..."></textarea></label>
+            <div class="g2">
+              <div><label>Start<select id="m-start-preset">
+                <option value="now">Now</option>
+                <option value="15m">In 15 minutes</option>
+                <option value="1h">In 1 hour</option>
+                <option value="custom">Custom...</option>
+              </select></label>
+              <div id="m-start-custom-wrap" class="hidden">
+                <label>Start (UTC)<input type="datetime-local" id="m-start"></label>
+              </div></div>
+              <div><label>Duration<select id="m-duration">
+                <option value="15">15 minutes</option>
+                <option value="30">30 minutes</option>
+                <option value="60" selected>1 hour</option>
+                <option value="120">2 hours</option>
+                <option value="240">4 hours</option>
+                <option value="custom">Custom end...</option>
+              </select></label>
+              <div id="m-end-custom-wrap" class="hidden">
+                <label>End (UTC)<input type="datetime-local" id="m-end"></label>
+              </div></div>
+            </div>
+            <div><label>Components</label>
+              <div id="maint-components" class="comp-checks"></div>
+            </div>
+            <button type="submit">Schedule Maintenance</button>
+            <span id="maint-fb"></span>
+          </form>
+        </details>
+        <div id="maint-list">Loading...</div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,257 @@
+/* ── Admin Page — Specific Styles ── */
+
+main { max-width: 900px }
+
+header h1 { font-size: clamp(1.3rem, 4vw, 1.8rem) }
+header .sub { font-size: .7rem; margin-top: .2rem }
+header { margin-bottom: 2rem }
+
+/* ── Dot Variants ── */
+
+.dot-g { background: var(--grn); box-shadow: 0 0 6px var(--grn) }
+.dot-r { background: var(--ered); box-shadow: 0 0 6px var(--ered) }
+
+/* ── Button Variants ── */
+
+button.secondary {
+  background: transparent;
+  color: var(--cu);
+  padding: .3rem .7rem;
+  font-size: .72rem;
+}
+
+button.secondary:hover:not(:disabled) {
+  background: rgba(45, 106, 79, .1);
+}
+
+button.danger {
+  border-color: var(--ered);
+  background: linear-gradient(180deg, var(--ered), #b02a33);
+}
+
+button.danger:hover:not(:disabled) {
+  box-shadow: 0 0 15px rgba(230, 57, 70, .3);
+}
+
+/* ── Layout Helpers ── */
+
+.row {
+  display: flex;
+  gap: .8rem;
+  align-items: end;
+}
+
+.row input { flex: 1; margin-bottom: 0 }
+
+.g2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 1rem;
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.filters label { flex: 1; min-width: 120px }
+.filters select { margin-bottom: 0 }
+
+/* ── Details / Summary ── */
+
+details { margin-bottom: 1.2rem }
+
+summary {
+  cursor: pointer;
+  color: var(--cu);
+  font-size: .75rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .3rem 0;
+  list-style: none;
+}
+
+summary::-webkit-details-marker { display: none }
+summary::before { content: '\25B8 ' }
+details[open] summary::before { content: '\25BE ' }
+
+/* ── Table (slightly smaller for admin density) ── */
+
+table { font-size: .75rem }
+
+/* ── Section Description ── */
+
+.section-desc {
+  font-size: .85rem;
+  margin-bottom: 1rem;
+  color: var(--dim);
+}
+
+.search-input { margin-bottom: .8rem }
+
+/* ── Feedback Labels ── */
+
+.fb-ok  { color: var(--grn); font-size: .75rem }
+.fb-err { color: var(--ered); font-size: .75rem }
+
+.status-link {
+  display: inline-block;
+  color: var(--cu);
+  font-size: .85rem;
+  text-decoration: none;
+  border: 1px solid var(--cu);
+  padding: .4rem .8rem;
+}
+.status-link:hover {
+  background: rgba(45, 106, 79, .15);
+  box-shadow: 0 0 10px var(--cug);
+}
+
+/* ── Status / Incidents ── */
+
+.comp-checks {
+  display: flex;
+  gap: .8rem;
+  flex-wrap: wrap;
+  margin-bottom: .9rem;
+}
+
+.comp-checks label {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  font-size: .78rem;
+  color: var(--txt);
+  text-transform: none;
+  letter-spacing: 0;
+  cursor: pointer;
+}
+
+.comp-checks input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+
+textarea {
+  width: 100%;
+  padding: .55rem .7rem;
+  font-family: var(--f);
+  font-size: .85rem;
+  color: var(--txt);
+  background: var(--bg);
+  border: 1px solid var(--brd);
+  outline: none;
+  margin-bottom: .9rem;
+  resize: vertical;
+  min-height: 60px;
+}
+
+textarea:focus {
+  border-color: var(--cu);
+  box-shadow: 0 0 8px var(--cug);
+}
+
+.sub-heading {
+  font-size: .72rem;
+  color: var(--dim);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin: 1.2rem 0 .6rem;
+}
+
+.mt { margin-top: 1.2rem }
+
+.inc-card {
+  border: 1px solid var(--brd);
+  padding: .8rem;
+  margin-bottom: .8rem;
+  background: var(--bg);
+}
+
+.inc-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: .5rem;
+  flex-wrap: wrap;
+  gap: .3rem;
+}
+
+.inc-card-title {
+  font-size: .82rem;
+  font-weight: bold;
+}
+
+.inc-card-meta {
+  font-size: .65rem;
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.inc-updates {
+  font-size: .75rem;
+  color: var(--dim);
+  margin-bottom: .5rem;
+  padding-left: .5rem;
+  border-left: 2px solid var(--brd);
+}
+
+.inc-updates div { padding: .2rem 0 }
+
+.inc-add-update {
+  display: flex;
+  gap: .5rem;
+  align-items: end;
+  flex-wrap: wrap;
+}
+
+.inc-add-update select {
+  width: auto;
+  margin-bottom: 0;
+  min-width: 120px;
+}
+
+.inc-add-update input {
+  flex: 1;
+  min-width: 150px;
+  margin-bottom: 0;
+}
+
+.inc-actions {
+  display: flex;
+  gap: .5rem;
+  margin-top: .5rem;
+  flex-wrap: wrap;
+}
+
+.override-row {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  padding: .4rem 0;
+  border-bottom: 1px solid rgba(255,255,255,.03);
+}
+
+.override-row:last-child { border-bottom: none }
+
+.override-name {
+  flex: 1;
+  font-size: .82rem;
+}
+
+.override-row select {
+  width: auto;
+  margin-bottom: 0;
+  min-width: 140px;
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 600px) {
+  .g2 { grid-template-columns: 1fr }
+  .row { flex-direction: column }
+  main { padding: 1rem .5rem 3rem }
+}

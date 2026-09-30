@@ -1,0 +1,77 @@
+/* ── Leaderboard Page — Specific Styles ── */
+
+:root {
+  --gold: #ffd700;
+  --silver: #c0c0c0;
+  --bronze: #cd7f32;
+}
+
+select {
+  padding: .45rem .7rem;
+  font-size: .82rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+/* ── Table tweaks ── */
+
+table { font-size: .82rem }
+th { padding: .55rem .6rem }
+td { padding: .55rem .6rem }
+tr:hover td { background: rgba(45, 106, 79, .05) }
+
+.rank-col { width: 2.5rem; text-align: center }
+.num-col { text-align: right; font-variant-numeric: tabular-nums }
+
+/* ── Podium highlights ── */
+
+tr.rank-gold td   { color: var(--gold);   text-shadow: 0 0 8px rgba(255, 215, 0, .3) }
+tr.rank-silver td { color: var(--silver); text-shadow: 0 0 6px rgba(192, 192, 192, .2) }
+tr.rank-bronze td { color: var(--bronze); text-shadow: 0 0 6px rgba(205, 127, 50, .2) }
+
+/* ── Empty State ── */
+
+.lb-empty {
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--dim);
+}
+
+/* ── Meta & Rewards ── */
+
+.lb-meta {
+  font-size: .7rem;
+  color: var(--dim);
+  text-align: right;
+  margin-top: .6rem;
+}
+
+.reward-info {
+  font-size: .82rem;
+  color: var(--dim);
+  line-height: 1.7;
+  margin-bottom: .6rem;
+}
+
+.reward-info strong { color: var(--grn) }
+
+/* ── Scoring table ── */
+
+.scoring-table { margin: .8rem 0 }
+.scoring-table td:first-child { color: var(--cu); font-weight: bold }
+.scoring-table td:last-child { text-align: right; color: var(--dim) }
+
+/* ── Responsive ── */
+
+@media (max-width: 600px) {
+  table { font-size: .72rem }
+  th, td { padding: .4rem .3rem }
+  .scoring-table td { font-size: .72rem }
+}
+
+@media (max-width: 480px) {
+  table { font-size: .65rem }
+  th, td { padding: .25rem .15rem }
+  th { font-size: .5rem }
+  .rank-col { width: 1.5rem }
+}

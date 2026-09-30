@@ -1,0 +1,72 @@
+/* ── Systems Page — Specific Styles ── */
+
+.panel:nth-child(3) { animation-delay: .14s }
+.panel:nth-child(4) { animation-delay: .21s }
+.panel:nth-child(5) { animation-delay: .28s }
+
+/* ── Descriptive Text ── */
+
+.sys-desc {
+  font-size: .85rem;
+  color: var(--dim);
+  line-height: 1.7;
+  margin-bottom: .6rem;
+}
+
+.sys-desc:last-child { margin-bottom: 0 }
+
+.sys-desc strong { color: var(--cu) }
+
+.sys-list {
+  list-style: none;
+  padding: 0;
+  margin: .5rem 0 0;
+}
+
+.sys-list li {
+  font-size: .82rem;
+  color: var(--dim);
+  padding: .25rem 0;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.sys-list li::before {
+  content: '\25B8';
+  position: absolute;
+  left: 0;
+  color: var(--cu);
+}
+
+/* ── Tier Labels ── */
+
+.tier {
+  display: inline-block;
+  font-size: .7rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .1rem .4rem;
+  border: 1px solid;
+}
+
+.tier-std  { color: #8ca08c; border-color: #8ca08c }
+.tier-mil  { color: #e04050; border-color: #e04050 }
+.tier-med  { color: #4ade80; border-color: #4ade80 }
+.tier-surv { color: #a78bfa; border-color: #a78bfa }
+.tier-bld  { color: #f59e0b; border-color: #f59e0b }
+.tier-tac  { color: #f87171; border-color: #f87171 }
+.tier-mix  { color: #38bdf8; border-color: #38bdf8 }
+
+/* ── Scoring table ── */
+
+.sys-table { margin: .6rem 0 }
+.sys-table td:first-child { color: var(--cu) }
+.sys-table td:last-child { text-align: right; color: var(--dim) }
+
+/* ── Responsive ── */
+
+@media (max-width: 480px) {
+  .sys-desc { font-size: .78rem }
+  .sys-list li { font-size: .75rem }
+  .tier { font-size: .62rem; padding: .05rem .3rem }
+}

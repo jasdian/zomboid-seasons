@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Incident History — Zomboid Seasons</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="status.css">
+<script src="nav.js" defer></script>
+<style>
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: .8rem;
+}
+.month-nav {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+}
+.month-nav button {
+  background: transparent;
+  color: var(--cu);
+  border: 1px solid var(--brd);
+  padding: .3rem .6rem;
+  font-size: .8rem;
+  cursor: pointer;
+}
+.month-nav button:hover {
+  background: rgba(45,106,79,.15);
+  border-color: var(--cu);
+}
+.month-nav .range {
+  font-size: .78rem;
+  color: var(--dim);
+}
+.comp-filter {
+  display: flex;
+  gap: .6rem;
+  flex-wrap: wrap;
+}
+.comp-filter label {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  font-size: .72rem;
+  color: var(--txt);
+  cursor: pointer;
+}
+.comp-filter input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+.month-group {
+  margin-bottom: 2rem;
+}
+.month-group:last-child { margin-bottom: 0 }
+.month-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: .75rem;
+  color: var(--dim);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding-bottom: .4rem;
+  border-bottom: 1px solid var(--brd);
+  margin-bottom: .8rem;
+}
+.month-count {
+  font-size: .65rem;
+  color: var(--dim);
+}
+.expand-btn {
+  background: transparent;
+  color: var(--cu);
+  border: 1px solid var(--brd);
+  padding: .3rem .8rem;
+  font-size: .7rem;
+  cursor: pointer;
+  margin-top: .5rem;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+.expand-btn:hover {
+  background: rgba(45,106,79,.15);
+  border-color: var(--cu);
+}
+.hist-incident {
+  padding: .8rem 0;
+  border-bottom: 1px solid rgba(255,255,255,.03);
+}
+.hist-incident:last-child { border-bottom: none }
+.hist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: .3rem;
+  margin-bottom: .3rem;
+}
+.hist-title { font-size: .82rem; color: var(--txt); font-weight: bold }
+.hist-meta { font-size: .6rem; color: var(--dim); text-transform: uppercase; letter-spacing: .06em }
+.hist-last-update { font-size: .75rem; color: var(--dim) }
+.hist-time {
+  font-size: .65rem;
+  color: var(--dim);
+  margin-top: .2rem;
+}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Zomboid Seasons</h1>
+    <div class="sub">Incident History</div>
+    <nav></nav>
+  </header>
+
+  <div class="controls">
+    <div class="month-nav">
+      <button id="nav-prev">&larr;</button>
+      <span class="range" id="month-range">...</span>
+      <button id="nav-next">&rarr;</button>
+    </div>
+    <div class="comp-filter" id="comp-filter">Loading...</div>
+  </div>
+
+  <div id="history">
+    <div class="empty-state">Loading...</div>
+  </div>
+</main>
+
+<script>
+const $=s=>document.querySelector(s);
+
+const MONTH_NAMES=['January','February','March','April','May','June',
+  'July','August','September','October','November','December'];
+
+let currentYear, currentMonth;
+let expandedMonths=new Set();
+
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+
+function init(){
+  const now=new Date();
+  currentYear=now.getFullYear();
+  currentMonth=now.getMonth();
+  loadComponents();
+}
+
+async function loadComponents(){
+  try{
+    const r=await fetch('/api/status');if(!r.ok)return;
+    const data=await r.json();
+    const el=$('#comp-filter');
+    if(!data.components.length){el.innerHTML='';loadHistory();return}
+    el.innerHTML=data.components.map(c=>
+      `<label><input type="checkbox" value="${c.id}" checked> ${c.name}</label>`
+    ).join('');
+    el.querySelectorAll('input').forEach(cb=>cb.addEventListener('change',loadHistory));
+    loadHistory();
+  }catch{$('#history').innerHTML='<div class="empty-state">Failed to load</div>'}
+}
+
+function monthStr(y,m){return `${y}-${String(m+1).padStart(2,'0')}`}
+
+function getRange(){
+  // 3 months: current-2, current-1, current
+  const months=[];
+  for(let offset=-2;offset<=0;offset++){
+    let y=currentYear, m=currentMonth+offset;
+    if(m<0){m+=12;y--}
+    if(m>11){m-=12;y++}
+    months.push({year:y,month:m,str:monthStr(y,m)});
+  }
+  return months;
+}
+
+function updateRangeLabel(){
+  const range=getRange();
+  const first=range[0], last=range[range.length-1];
+  $('#month-range').textContent=
+    `${MONTH_NAMES[first.month]} ${first.year} — ${MONTH_NAMES[last.month]} ${last.year}`;
+}
+
+function getSelectedComponents(){
+  const checks=document.querySelectorAll('#comp-filter input:checked');
+  return [...checks].map(c=>c.value);
+}
+
+async function loadHistory(){
+  updateRangeLabel();
+  const range=getRange();
+  const from=range[0].str;
+  const to=range[range.length-1].str;
+  const comps=getSelectedComponents();
+  const el=$('#history');
+
+  let url=`/api/status/history?from=${from}&to=${to}&preview_count=3`;
+  if(comps.length)url+=`&components=${comps.join(',')}`;
+  // Expand any expanded months
+  expandedMonths.forEach(m=>{url+=`&expand_month=${m}`});
+
+  try{
+    const r=await fetch(url);if(!r.ok)throw 0;
+    const data=await r.json();
+
+    if(!data.months||!data.months.length||data.months.every(m=>m.total_incidents===0)){
+      el.innerHTML='<div class="empty-state">No incidents in this period</div>';
+      return;
+    }
+
+    el.innerHTML=data.months.map(m=>{
+      if(m.total_incidents===0)return '';
+      const [y,mo]=m.month.split('-').map(Number);
+      const monthName=MONTH_NAMES[mo-1];
+      const isExpanded=expandedMonths.has(m.month);
+      const showing=m.incidents.length;
+      const total=m.total_incidents;
+
+      const incidentsHtml=m.incidents.map(inc=>{
+        const lastUpdate=inc.updates&&inc.updates.length?inc.updates[inc.updates.length-1]:null;
+        const lastMsg=lastUpdate?esc(lastUpdate.message):'';
+        const start=new Date(inc.created_at).toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit',timeZoneName:'short'});
+        const end=inc.resolved_at?new Date(inc.resolved_at).toLocaleString('en-US',{hour:'2-digit',minute:'2-digit',timeZoneName:'short'}):'ongoing';
+        const dur=inc.resolved_at?` (${fmtDuration(new Date(inc.resolved_at)-new Date(inc.created_at))})`:'';
+
+        return `<div class="hist-incident">
+          <div class="hist-header">
+            <a href="/incident.html?id=${inc.id}" class="hist-title" style="color:var(--txt);text-decoration:none">${esc(inc.title)}</a>
+            <span class="hist-meta">${inc.severity} · ${inc.status}</span>
+          </div>
+          ${lastMsg?`<div class="hist-last-update">${lastMsg}</div>`:''}
+          <div class="hist-time">${start} — ${end}${dur}</div>
+          ${inc.postmortem_body ? `<div class="hist-postmortem" style="margin-top:.5rem;padding:.6rem;background:rgba(45,106,79,.08);border-left:2px solid var(--cu);font-size:.75rem;color:var(--txt)">
+            <strong style="color:var(--cu);font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">Postmortem</strong><br>
+            ${esc(inc.postmortem_body)}
+          </div>` : ''}
+        </div>`;
+      }).join('');
+
+      const expandBtn=(!isExpanded&&total>showing)?
+        `<button class="expand-btn" data-expand="${m.month}">Show all ${total} incidents</button>`:'';
+
+      return `<div class="month-group">
+        <div class="month-label">
+          <span>${monthName} ${y}</span>
+          <span class="month-count">${total} incident${total!==1?'s':''}</span>
+        </div>
+        ${incidentsHtml}
+        ${expandBtn}
+      </div>`;
+    }).filter(Boolean).join('');
+
+    el.querySelectorAll('[data-expand]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        expandedMonths.add(btn.dataset.expand);
+        loadHistory();
+      });
+    });
+  }catch{el.innerHTML='<div class="empty-state">Failed to load incident history</div>'}
+}
+
+function fmtDuration(ms){
+  const mins=Math.round(ms/60000);
+  if(mins<60)return mins+'m';
+  const hrs=Math.floor(mins/60);
+  const rm=mins%60;
+  return rm?`${hrs}h ${rm}m`:`${hrs}h`;
+}
+
+$('#nav-prev').addEventListener('click',()=>{
+  currentMonth--;
+  if(currentMonth<0){currentMonth=11;currentYear--}
+  expandedMonths.clear();
+  loadHistory();
+});
+$('#nav-next').addEventListener('click',()=>{
+  currentMonth++;
+  if(currentMonth>11){currentMonth=0;currentYear++}
+  expandedMonths.clear();
+  loadHistory();
+});
+
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+[server]
+bind = "0.0.0.0:3001"
+static_dir = "./status-service/static"
+
+[admin]
+token = "dev-token"
+
+[database]
+url = "sqlite:status.sqlite?mode=rwc"
+
+[logging]
+level = "debug"
+format = "plain"
+
+[[components]]
+id = "game_server"
+name = "Game Server"
+description = "Project Zomboid dedicated server"
+position = 1
+
+[components.probe]
+type = "rcon"
+host = "host.docker.internal"
+port = 27016
+password_file = "/run/secrets/rcon.pw"
+command = "players"
+interval_seconds = 30
+timeout_ms = 5000
+failure_threshold = 3
+recovery_threshold = 2
+
+[[components]]
+id = "backend_api"
+name = "Backend API"
+description = "Registration and payment services"
+position = 2
+
+[components.probe]
+type = "http"
+url = "http://zomboid-seasons:3000/health"
+method = "GET"
+expected_status = 200
+interval_seconds = 15
+timeout_ms = 3000
+failure_threshold = 3
+recovery_threshold = 2
+
+[[components]]
+id = "payments"
+name = "Payment Processing"
+description = "Ethereum payment verification"
+position = 3
+
+[components.probe]
+type = "http"
+url = "http://zomboid-seasons:3000/api/season"
+method = "GET"
+expected_status = 200
+interval_seconds = 30
+timeout_ms = 5000
+failure_threshold = 3
+recovery_threshold = 2

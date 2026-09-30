@@ -1,0 +1,300 @@
+/* ── Zomboid Seasons — Shared Styles ── */
+
+:root {
+  --bg: #080c08;
+  --panel: #0e160e;
+  --panel2: #142014;
+  --brd: #2a4a2a;
+  --cu: #40d88a;
+  --cug: rgba(64, 216, 138, .2);
+  --cud: #2aaa6a;
+  --red: #e04050;
+  --redg: rgba(224, 64, 80, .25);
+  --grn: #4ade80;
+  --yel: #fbbf24;
+  --ered: #f87171;
+  --txt: #d4dcd4;
+  --dim: #7c907c;
+  --f: 'Share Tech Mono', 'Courier New', monospace;
+  --fh: 'Special Elite', serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box }
+
+body {
+  font-family: var(--f);
+  background: var(--bg);
+  color: var(--txt);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* subtle grid overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(45, 106, 79, .03) 39px, rgba(45, 106, 79, .03) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(45, 106, 79, .03) 39px, rgba(45, 106, 79, .03) 40px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* top accent line */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--red), transparent);
+  z-index: 100;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1rem 4rem;
+}
+
+/* ── Header & Nav ── */
+
+header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding: 1.5rem 0;
+}
+
+header h1 {
+  font-family: var(--fh);
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
+  color: var(--red);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-shadow: 0 0 30px var(--redg);
+}
+
+header .sub {
+  font-size: .75rem;
+  color: var(--dim);
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  margin-top: .25rem;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin-top: 1rem;
+  font-size: .75rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+nav a {
+  color: var(--dim);
+  text-decoration: none;
+  padding: .3rem .6rem;
+  transition: color .2s;
+}
+
+nav a:hover { color: var(--txt); text-decoration: none }
+nav a.active { color: var(--grn) }
+nav a.active::before { content: '[ ' }
+nav a.active::after  { content: ' ]' }
+nav .sep { color: var(--brd); padding: 0 .2rem; user-select: none }
+
+/* ── Panels ── */
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--brd);
+  margin-bottom: 1.5rem;
+  position: relative;
+  animation: fadeIn .4s ease both;
+}
+
+.panel:nth-child(2) { animation-delay: .07s }
+.panel:nth-child(3) { animation-delay: .14s }
+
+.panel::before,
+.panel::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+}
+
+.panel::before {
+  top: -1px; left: -1px;
+  border-top: 2px solid var(--cu);
+  border-left: 2px solid var(--cu);
+}
+
+.panel::after {
+  bottom: -1px; right: -1px;
+  border-bottom: 2px solid var(--cu);
+  border-right: 2px solid var(--cu);
+}
+
+.ph {
+  padding: .55rem 1rem;
+  border-bottom: 1px solid var(--brd);
+  background: var(--panel2);
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.ph h2 {
+  font-size: .8rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--cu);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--grn);
+  box-shadow: 0 0 6px var(--grn);
+}
+
+.pb { padding: 1.2rem }
+
+/* ── Form Elements ── */
+
+label {
+  display: block;
+  font-size: .7rem;
+  color: var(--dim);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: .25rem;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: .55rem .7rem;
+  font-family: var(--f);
+  font-size: .85rem;
+  color: var(--txt);
+  background: var(--bg);
+  border: 1px solid var(--brd);
+  outline: none;
+  margin-bottom: .9rem;
+  transition: border-color .2s;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--cu);
+  box-shadow: 0 0 8px var(--cug);
+}
+
+input::placeholder { color: var(--dim) }
+
+button {
+  font-family: var(--f);
+  font-size: .8rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .6rem 1.3rem;
+  cursor: pointer;
+  border: 1px solid var(--cu);
+  background: linear-gradient(180deg, var(--cu), var(--cud));
+  color: #fff;
+  transition: all .2s;
+}
+
+button:hover:not(:disabled) {
+  box-shadow: 0 0 15px var(--cug);
+  filter: brightness(1.1);
+}
+
+button:disabled { opacity: .5; cursor: not-allowed }
+
+/* ── Tables ── */
+
+table { width: 100%; border-collapse: collapse; font-size: .78rem }
+
+th {
+  text-align: left;
+  font-size: .65rem;
+  color: var(--dim);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .45rem;
+  border-bottom: 1px solid var(--brd);
+}
+
+td {
+  padding: .45rem;
+  border-bottom: 1px solid rgba(255, 255, 255, .03);
+}
+
+tr:hover td { background: rgba(45, 106, 79, .03) }
+
+/* ── Inline Elements ── */
+
+code {
+  font-family: var(--f);
+  font-size: .85em;
+  color: var(--cu);
+  background: var(--bg);
+  padding: .1em .3em;
+}
+
+a { color: var(--cu); text-decoration: none }
+a:hover { text-decoration: underline }
+
+/* ── Status Colors ── */
+
+.s-ok   { color: var(--grn) }
+.s-wait { color: var(--yel) }
+.s-no   { color: var(--ered) }
+
+/* ── Utilities ── */
+
+.hidden { display: none !important }
+
+/* ── Animation ── */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px) }
+  to   { opacity: 1; transform: translateY(0) }
+}
+
+/* ── Mobile (≤480px — small Android phones) ── */
+
+@media (max-width: 480px) {
+  main { padding: 1rem .4rem 3rem }
+
+  header h1 { font-size: 1.4rem }
+  header .sub { font-size: .65rem; letter-spacing: .2em }
+
+  nav { flex-wrap: wrap; gap: .1rem; font-size: .65rem }
+  nav .sep { padding: 0 .1rem }
+
+  .ph { padding: .45rem .6rem }
+  .ph h2 { font-size: .7rem }
+  .pb { padding: .8rem .6rem }
+
+  table { font-size: .68rem }
+  th { font-size: .58rem; padding: .35rem .25rem }
+  td { padding: .35rem .25rem }
+
+  input[type="text"],
+  input[type="password"],
+  input[type="number"],
+  select { font-size: .78rem; padding: .45rem .5rem }
+
+  button { font-size: .72rem; padding: .5rem .8rem }
+}
